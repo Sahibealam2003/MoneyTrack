@@ -9,7 +9,7 @@ const SignUp = () => {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const [pic, setPic] = useState(null)
+  const [profileImageUrl, setProfileImageUrl] = useState(null)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
 
@@ -48,9 +48,9 @@ const SignUp = () => {
 
         {/* Form */}
         <form onSubmit={handleOnSignUp} className="space-y-1 flex flex-col">
-          {/* Profile Pic */}
+          {/* Profile profileImageUrl */}
           <div className="flex justify-center -mb-5">
-            <ProfileIcon image={pic} setImage={setPic} />
+            <ProfileIcon image={profileImageUrl} setImage={setProfileImageUrl} />
           </div>
 
           {/* Name, Email, Password Fields */}
