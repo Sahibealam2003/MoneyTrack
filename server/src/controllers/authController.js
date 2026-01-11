@@ -30,13 +30,36 @@ exports.registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    res.status(400).json({
+    res.status(500).json({
       error: error.message,
     });
   }
 };
 
 
-exports.loginUser=async(req,res)=>{}
+exports.loginUser=async(req,res)=>{
+  try {
+    const {email,password} = req.body
+    if(!email || !password) throw new Error("All fields are rquired")
+      const user = await User.findOne({email})
+    if(!user || !(await user.comparePassword(password))){
+      throw new Error('Invalid Crenditail')
+    }
+    res.status(200).json({id : user._id,
+      user,
+      token : generateToken(user._id)
+    })
+  } catch (error) {
+        res.status(500).json({error: error.message})    
+  }
+}
 
-exports.getUserInfo=async(req,res)=>{}
+exports.getUserInfo=async(req,res)=>{
+  try {
+    const user = await User.findById(req.user.id).select('-password')
+    if(!user) throw new Error("User not found")
+      res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+}

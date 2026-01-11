@@ -5,6 +5,7 @@ const express =require('express')
 const connectDB = require('./src/config/connectFile')
 const app = express()
 const {route : authRoutes} = require('./src/routes/authRoutes')
+const {route : incomeRoutes} = require('./src/routes/incomeRoutes')
 dotenv.config()
 
 app.use(cors({
@@ -17,7 +18,14 @@ app.use(express.json())
 
 
 app.use('/api/v1/auth',authRoutes)
+app.use('/api/v1/income',incomeRoutes)
 
+
+
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "src/uploads"))
+)
 
 
 const  PORT = process.env.PORT || 8000
