@@ -4,7 +4,6 @@ const incomeSchema = new mongoose.Schema(
   {
     icon: {
       type: String,
-      required: true,
       trim: true,
     },
     amount: {
