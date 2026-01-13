@@ -1,37 +1,74 @@
-import React, { useState } from "react"
-import AuthLayout from "../../Components/AuthLayout.jsx"
-import { Link, useNavigate } from "react-router-dom"
-import Input from "../../Components/Input.jsx"
-import { validateEmail } from "../../Utils/helper.js"
-import ProfileIcon from "../../Components/ProfileIcon.jsx"
+import React, { use, useContext, useState } from "react";
+import AuthLayout from "../../Components/AuthLayout.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../Components/Input.jsx";
+import { validateEmail } from "../../Utils/helper.js";
+import ProfileIcon from "../../Components/ProfileIcon.jsx";
+import axiosInstance from "../../Utils/axiosInstance.js";
+import { API_PATHS } from "../../Utils/apiPath.js";
+import { UserContext } from "../../Context/userContext.jsx";
+import uploadImage from "../../Utils/uploadImage.js";
 
 const SignUp = () => {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [profileImageUrl, setProfileImageUrl] = useState(null)
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [profilePic, setProfilePic] = useState(null);
+  const [error, setError] = useState(null);
+  const { updateUser } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  function handleOnSignUp(e) {
-    e.preventDefault()
+  const handleOnSignUp = async (e) => {
+  e.preventDefault();
 
-    if (!name) {
-      setError("Please enter your name")
-      return
-    }
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email")
-      return
-    }
-    if (!password) {
-      setError("Please enter password")
-      return
-    }
-
-    setError("")
-    // TODO: API call for signup
+  if (!name) {
+    setError("Please enter your name");
+    return;
   }
+
+  if (!validateEmail(email)) {
+    setError("Please enter a valid email");
+    return;
+  }
+
+  if (!password) {
+    setError("Please enter password");
+    return;
+  }
+
+  setError("");
+
+  let profileImageUrl = "";
+
+  try {
+    if (profilePic) {
+      const imgUploadRes = await uploadImage(profilePic);
+      profileImageUrl = imgUploadRes.imageUrl || "";
+    }
+
+    const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+      name,
+      email,
+      password,
+      profileImageUrl,
+    });
+
+    const { token, user } = response.data;
+
+    if (token) {
+      localStorage.setItem("token", token);
+      updateUser(user);
+      navigate("/dashboard");
+    }
+  } catch (error) {
+    if (error.response && error.response.data.message) {
+      setError(error.response.data.message);
+    } else {
+      setError("Something went wrong. Please try again.");
+    }
+  }
+};
+
 
   return (
     <AuthLayout>
@@ -48,12 +85,12 @@ const SignUp = () => {
 
         {/* Form */}
         <form onSubmit={handleOnSignUp} className="space-y-1 flex flex-col">
-          {/* Profile profileImageUrl */}
+          {/* Profile Image */}
           <div className="flex justify-center -mb-5">
-            <ProfileIcon image={profileImageUrl} setImage={setProfileImageUrl} />
+            <ProfileIcon image={profilePic} setImage={setProfilePic} />
           </div>
 
-          {/* Name, Email, Password Fields */}
+          {/* Fields */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="md:col-span-2">
               <Input
@@ -82,14 +119,14 @@ const SignUp = () => {
             />
           </div>
 
-          {/* Error Message */}
+          {/* Error */}
           {error && (
             <p className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2 rounded-md text-center">
               {error}
             </p>
           )}
 
-          {/* Submit Button */}
+          {/* Button */}
           <button
             type="submit"
             className="w-full py-3 rounded-lg bg-violet-600 text-white text-sm font-medium tracking-wide 
@@ -111,7 +148,7 @@ const SignUp = () => {
         </form>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;

@@ -1,46 +1,64 @@
-import React, { useState } from "react"
-import AuthLayout from "../../Components/AuthLayout.jsx"
-import { Link, useNavigate } from "react-router-dom"
-import Input from "../../Components/Input.jsx"
-import { validateEmail } from "../../Utils/helper.js"
+import React, { useContext, useState } from "react";
+import AuthLayout from "../../Components/AuthLayout.jsx";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../Components/Input.jsx";
+import { validateEmail } from "../../Utils/helper.js";
+import axiosInstance from "../../Utils/axiosInstance.js";
+import { API_PATHS } from "../../Utils/apiPath.js";
+import { UserContext } from "../../Context/userContext.jsx";
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState(null)
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const {updateUser} = useContext(UserContext)
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email")
-      return
+      setError("Please enter a valid email");
+      return;
     }
 
     if (!password) {
-      setError("Please enter the password")
-      return
+      setError("Please enter the password");
+      return;
     }
 
-    setError("")
+    setError("");
 
     async function loginUser() {
+      // Login API Call
       try {
-        // API call
-        // await axios.post(...)
-      } catch (err) {
-        setError("Login failed")
+        const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+          email,
+          password,
+        });
+
+        const { token, user } = response.data;
+
+        if (token) {
+          localStorage.setItem("token", token);
+          updateUser(user)
+          navigate("/dashboard");
+        }
+      } catch (error) {
+        if (error.response && error.response.data.message) {
+          setError(error.response.data.message);
+        } else {
+          setError("Something went wrong. Please try again.");
+        }
       }
     }
 
-    loginUser()
-  }
+    loginUser();
+  };
 
   return (
     <AuthLayout>
       <div className="max-w-md mx-auto w-full px-6 py-6 flex flex-col justify-center">
-        
         {/* Header */}
         <div className="mb-8 text-center">
           <h3 className="text-3xl font-semibold text-gray-900 tracking-tight">
@@ -53,7 +71,6 @@ const Login = () => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           <Input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -99,7 +116,7 @@ const Login = () => {
         </form>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

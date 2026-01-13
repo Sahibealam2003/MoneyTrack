@@ -14,7 +14,7 @@ route.post("/login", loginUser);
 
 route.get("/getUser", protect, getUserInfo);
 
-route.get(
+route.post(
   "/upload-image",
   upload.single("image"),
   (req, res) => {
