@@ -1,6 +1,6 @@
 const Income = require("../models/incomeSchema");
 const xlsx = require("xlsx")
-
+const moment = require("moment");
 
 exports.addIncome = async (req, res) => {
   try {
@@ -41,7 +41,9 @@ exports.getAllIncome = async (req, res) => {
   }
 };
 
-exports.downlodeIncomeExcel = async (req, res) => {
+
+
+exports.downloadIncomeExcel = async (req, res) => {
   const userId = req.user.id;
   try {
     const income = await Income.find({ userId }).sort({ date: -1 });
@@ -49,11 +51,13 @@ exports.downlodeIncomeExcel = async (req, res) => {
     const data = income.map((item) => ({
       Source: item.source,
       Amount: item.amount,
-      Date: item.date,
+      Date: moment(item.date).format("DD MMM YYYY"), // format date
     }));
+
     const wb = xlsx.utils.book_new();
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "Income");
+
     xlsx.writeFile(wb, "income_details.xlsx");
     res.download("income_details.xlsx");
   } catch (error) {

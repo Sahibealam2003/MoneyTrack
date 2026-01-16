@@ -36,6 +36,4 @@ route.post(
 
 
 
-module.exports = {
-  route,
-};
+module.exports = route

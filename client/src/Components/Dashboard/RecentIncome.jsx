@@ -1,17 +1,19 @@
+import moment from "moment";
 import React from "react";
 import { LuArrowRight } from "react-icons/lu";
-import moment from "moment";
 import TransactionInfoCard from "../Cards/TransactionInfoCard";
-const RecentTransctions = ({ transactions, onSeeMore }) => {
+
+const RecentIncome = ({ transactions, onSeeMore }) => {
   return (
     <div className="card">
-      <div className="flex gap-5 items-center justify-between ">
-        <h5 className="text-lg">Recent Transactions</h5>
+      <div className="flex items-center justify-between ">
+        <h5 className="text-lg">Income</h5>
 
         <button className="card-btn" onClick={onSeeMore}>
           See All <LuArrowRight className="text-base" />
         </button>
       </div>
+
       <div className="mt-6 flex flex-col gap-4">
   {transactions?.slice(0, 4)?.map((item) => (
     <TransactionInfoCard
@@ -30,4 +32,4 @@ const RecentTransctions = ({ transactions, onSeeMore }) => {
   );
 };
 
-export default RecentTransctions;
+export default RecentIncome;

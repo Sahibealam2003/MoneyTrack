@@ -6,7 +6,8 @@ const Navbar = ({ activeMenu }) => {
   const [openSideMenu, setOpenSideMenu] = useState(false);
 
   return (
-    <div className="w-full bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-4 relative">
+    <div className="w-full fixed top-0 left-0 right-0 h-16
+ bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-4">
       
       {/* Menu Button → ONLY mobile */}
       <button
@@ -23,10 +24,12 @@ const Navbar = ({ activeMenu }) => {
 
       {/* Mobile SideMenu */}
       {openSideMenu && (
-        <div className="absolute top-full left-0 w-full bg-white border-t border-gray-200 shadow-lg min-[1080px]:hidden">
-          <SideMenu activeMenu={activeMenu} />
-        </div>
-      )}
+  <div className="fixed inset-0 z-40 bg-black/40 min-[1080px]:hidden">
+    <div className="absolute left-0 top-0 h-full w-64 bg-white shadow-lg">
+      <SideMenu activeMenu={activeMenu} />
+    </div>
+  </div>
+)}
     </div>
   );
 };

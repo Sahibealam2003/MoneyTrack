@@ -9,7 +9,7 @@ import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
 import Income from './pages/Dashboard/Income'
 import Expense from './pages/Dashboard/Expense'
-import UserProvider from './Context/userContext'
+import {Toaster} from 'react-hot-toast'
 
 
 const Root =()=>{
@@ -20,6 +20,7 @@ const Root =()=>{
 
 const App = () => {
   return (
+    <>
     <div>
       <Routes>
         <Route path="/" element={<Root />} />
@@ -27,9 +28,18 @@ const App = () => {
         <Route path="/signUp" element={<SignUp />} />
         <Route path="/dashboard" element={<Home />} />
         <Route path="/income" element={<Income />} />
-        <Route path="/exprense" element={<Expense />} />
+        <Route path="/expense" element={<Expense />} />
       </Routes>
     </div>
+    <Toaster toastOption={{
+      className : "",
+      style :{
+        fontSize: '13px',
+      },
+    }}>
+
+    </Toaster>
+    </>
   );
 };
 

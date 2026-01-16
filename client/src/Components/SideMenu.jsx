@@ -23,7 +23,9 @@ const SideMenu = ({ activeMenu }) => {
   };
 
   return (
-    <div className="w-64 min-h-screen bg-white border-r border-gray-200 shadow-md flex flex-col">
+    <div className="w-64 fixed left-0 top-16 h-[calc(100vh-4rem)]
+ bg-white  shadow-md flex flex-col">
+
       {/* Profile Section */}
       <div className="flex flex-col items-center py-6 border-b border-gray-200">
         {user?.profileImageUrl ? (

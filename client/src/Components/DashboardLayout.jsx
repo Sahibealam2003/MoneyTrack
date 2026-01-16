@@ -7,19 +7,24 @@ const DashboardLayout = ({ children, activeMenu }) => {
   const { user } = useContext(UserContext);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar activeMenu={activeMenu} />
+    <div className="h-screen bg-gray-50 overflow-hidden">
+      <div className="fixed top-0 left-0 right-0 h-16 z-20">
+        <Navbar activeMenu={activeMenu} />
+      </div>
 
-      <div className="flex">
+      <div className="pt-16 h-full">
         {/* SideMenu only if user exists */}
         {user && (
-          <div className="max-[1080px]:hidden">
+          <div className="hidden min-[1080px]:block">
             <SideMenu activeMenu={activeMenu} />
           </div>
         )}
 
         {/* Main Content ALWAYS render */}
-        <div className="flex-1 mx-5 ">
+         <div
+          className={`h-[calc(100vh-4rem)] overflow-y-auto px-5
+          ${user ? "min-[1080px]:ml-64" : ""}`}
+        >
           {children}
         </div>
       </div>

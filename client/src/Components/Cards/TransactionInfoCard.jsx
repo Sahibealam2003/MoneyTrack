@@ -13,7 +13,7 @@ const TransactionInfoCard = ({
   date,
   title,
   icon,
-  onDelete, // optional delete handler
+  onDelete, 
 }) => {
   const getAmountStyle = () =>
     type === "income"

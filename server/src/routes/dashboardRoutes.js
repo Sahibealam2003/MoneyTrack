@@ -5,6 +5,4 @@ const route = express.Router()
 
 route.get('/',protect,getDashboardData);
 
-module.exports={
-    route
-}
+module.exports=route

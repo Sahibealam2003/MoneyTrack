@@ -9,6 +9,11 @@ import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 import { IoMdCard } from "react-icons/io";
 import { addThousandsSaperator } from "../../Utils/helper";
 import RecentTransctions from "../../Components/Dashboard/RecentTransctions";
+import FinanceOverview from "../../Components/Dashboard/FinanceOverview";
+import ExpenseTransactions from "./ExpenseTransactions";
+import Last30DaysExpenses from "./Last30DaysExpenses";
+import RecentIncomeChart from "../../Components/Dashboard/RecentIncomeChart";
+import RecentIncome from "../../Components/Dashboard/RecentIncome";
 const Home = () => {
   useUserAuth();
 
@@ -40,8 +45,8 @@ const Home = () => {
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="my-6 mx-auto">
+        {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-         
           <InfoCard
             icon={<IoMdCard />}
             label="Total Balance"
@@ -50,16 +55,12 @@ const Home = () => {
               dashboardData?.totalBalance < 0 ? "bg-red-500" : "bg-primary"
             }
           />
-
-         
           <InfoCard
             icon={<LuHandCoins />}
             label="Total Income"
             value={addThousandsSaperator(dashboardData?.totalIncome || 0)}
             color="bg-green-500"
           />
-
-         
           <InfoCard
             icon={<LuWalletMinimal />}
             label="Total Expense"
@@ -67,11 +68,41 @@ const Home = () => {
             color="bg-rose-500"
           />
         </div>
-        
+
+        {/* Recent Transactions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <RecentTransctions
-          transactions = {dashboardData?.recentTransactions}
-          onSeeMore={()=>navigate('/expense')}
+            transactions={dashboardData?.recentTransactions}
+            onSeeMore={() => navigate("/expense")}
+          />
+          <FinanceOverview
+          totalBalance={dashboardData?.totalBalance || 0}
+          totalIncome={dashboardData?.totalIncome || 0}
+          totalExpense={dashboardData?.totalExpenses || 0}
+        />
+        </div>
+
+        {/* Finance Overview */}
+        
+
+        {/* Responsive layout for ExpenseTransactions and Last30DaysExpenses */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <ExpenseTransactions
+            transactions={dashboardData?.last30DaysExpenses?.transactions || []}
+            onSeeMore={() => navigate("/expense")}
+          />
+
+          <Last30DaysExpenses
+            data={dashboardData?.last30DaysExpenses?.transactions || []}
+          />
+
+          <RecentIncome
+            transactions={dashboardData?.last60DaysIncome?.transactions || []}
+            onSeeMore={() => navigate("/income")}
+          />
+          <RecentIncomeChart
+            data={dashboardData?.last60DaysIncome?.transactions || []}
+            totalIncome={dashboardData?.last60DaysIncome?.total || 0}
           />
         </div>
       </div>
