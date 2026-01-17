@@ -1,38 +1,40 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
-import TransactionInfoCard from "../Cards/TransactionInfoCard";
+import TransactionInfoCard from "../../Components/Cards/TransactionInfoCard";
 import { BeatLoader } from "react-spinners";
 
-const RecentIncome = ({ transactions, onSeeMore,loading }) => {
+const ExpenseTransactions = ({ onSeeMore, transactions,loading }) => {
   const hasTransactions = transactions && transactions.length > 0;
 const [showLoader, setShowLoader] = useState(true);
 useEffect(() => {
     if (loading) {
-      setShowLoader(true);
+      setShowLoader(true); 
     } else {
       const timer = setTimeout(() => setShowLoader(false), 1000);
       return () => clearTimeout(timer);
     }
   }, [loading]);
+
   return (
     <div className="card">
       <div className="flex items-center justify-between">
-        <h5 className="text-lg">Income</h5>
+        <h5 className="text-lg">Expenses</h5>
 
         {hasTransactions && (
-          <button className="card-btn flex items-center gap-1" onClick={onSeeMore}>
+          <button
+            className="card-btn flex items-center gap-1"
+            onClick={onSeeMore}
+          >
             See All
             <LuArrowRight className="text-base" />
           </button>
         )}
       </div>
 
-      {showLoader? (
-        <div className="flex justify-center mt-30  h-40">
+      {showLoader ? (<div className="flex justify-center mt-30  h-40">
           <BeatLoader color="#7C3AED" size={20} />
-        </div>
-      ) : (
+        </div>) : (
         <div className="mt-6 flex flex-col gap-4">
         {hasTransactions ? (
           transactions.slice(0, 4).map((item) => (
@@ -48,7 +50,7 @@ useEffect(() => {
           ))
         ) : (
           <p className="text-sm text-gray-500 text-center py-6">
-            No income transactions yet
+            No transactions yet
           </p>
         )}
       </div>
@@ -57,4 +59,4 @@ useEffect(() => {
   );
 };
 
-export default RecentIncome;
+export default ExpenseTransactions;

@@ -1,5 +1,5 @@
 const Income = require("../models/incomeSchema");
-const xlsx = require("xlsx")
+const xlsx = require("xlsx");
 const moment = require("moment");
 
 exports.addIncome = async (req, res) => {
@@ -41,8 +41,6 @@ exports.getAllIncome = async (req, res) => {
   }
 };
 
-
-
 exports.downloadIncomeExcel = async (req, res) => {
   const userId = req.user.id;
   try {
@@ -51,15 +49,28 @@ exports.downloadIncomeExcel = async (req, res) => {
     const data = income.map((item) => ({
       Source: item.source,
       Amount: item.amount,
-      Date: moment(item.date).format("DD MMM YYYY"), // format date
+      Date: moment(item.date).format("DD MMM YYYY"),
     }));
 
     const wb = xlsx.utils.book_new();
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "Income");
 
-    xlsx.writeFile(wb, "income_details.xlsx");
-    res.download("income_details.xlsx");
+    const buffer = xlsx.write(wb, {
+      type: "buffer",
+      bookType: "xlsx",
+    });
+
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=income_details.xlsx"
+    );
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    res.send(buffer);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
@@ -73,4 +84,3 @@ exports.deleteIncome = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
-

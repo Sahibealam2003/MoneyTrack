@@ -27,17 +27,15 @@ const EmojiPickerPopup = ({ icon, onSelect }) => {
       {isOpen && (
         <div className="absolute z-50 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 p-3">
           <button
-  className="absolute top-2 right-2 z-50 bg-white rounded-full p-1 text-gray-500 hover:text-gray-700 shadow transition"
-  onClick={() => setIsOpen(false)}
->
+            className="absolute top-2 right-2 z-50 bg-white rounded-full p-1 text-gray-500 hover:text-gray-700 shadow transition"
+            onClick={() => setIsOpen(false)}
+          >
             <LuX />
           </button>
 
           <EmojiPicker
             open={isOpen}
-            onEmojiClick={(emoji) =>
-              onSelect(emoji?.imageUrl || "")
-            }
+            onEmojiClick={(emoji) => onSelect(emoji?.imageUrl || "")}
           />
         </div>
       )}

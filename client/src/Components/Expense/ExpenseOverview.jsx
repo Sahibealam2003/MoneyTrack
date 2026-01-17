@@ -2,15 +2,26 @@ import React, { useEffect, useState } from "react";
 import { prepareExpenseLineChartData } from "../../Utils/helper";
 import { LuPlus } from "react-icons/lu";
 import CustomLineChart from "../Chart/CustomLineChart";
+import { BeatLoader } from "react-spinners";
 
-const ExpenseOverview = ({ transactions, onAddExpense }) => {
+const ExpenseOverview = ({ transactions, onAddExpense ,loading}) => {
   const [chartData, setChartData] = useState([]);
-
+const [showLoader, setShowLoader] = useState(true);
   useEffect(() => {
     const result = prepareExpenseLineChartData(transactions);
     setChartData(result);
   }, [transactions]);
 
+  const hasData = transactions && transactions.length > 0;
+
+  useEffect(() => {
+      if (loading) {
+        setShowLoader(true);
+      } else {
+        const timer = setTimeout(() => setShowLoader(false), 1000);
+        return () => clearTimeout(timer);
+      }
+    }, [loading]);
   return (
     <div className="card">
       <div className="flex items-center justify-between">
@@ -34,7 +45,21 @@ const ExpenseOverview = ({ transactions, onAddExpense }) => {
       </div>
 
       <div className="mt-10">
-       <CustomLineChart data={chartData} />
+        {
+          showLoader ? (
+            <div className="flex justify-center mt-30  h-40">
+          <BeatLoader color="#7C3AED" size={20} />
+        </div>
+          ) : (
+            hasData ? (
+          <CustomLineChart data={chartData} />
+        ) : (
+          <p className="text-center text-gray-500 py-10">
+            No expense data available.
+          </p>
+        )
+          )
+        }
       </div>
     </div>
   );

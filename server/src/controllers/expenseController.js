@@ -43,25 +43,43 @@ exports.getAllExpense = async (req, res) => {
 
 exports.downloadExpenseExcel = async (req, res) => {
   const userId = req.user.id;
+
   try {
     const expenses = await Expense.find({ userId }).sort({ date: -1 });
 
     const data = expenses.map((item) => ({
       Category: item.category,
       Amount: item.amount,
-      Date: moment(item.date).format("DD MMM YYYY"), // formatted properly
+      Date: moment(item.date).format("DD MMM YYYY"),
     }));
 
     const wb = xlsx.utils.book_new();
     const ws = xlsx.utils.json_to_sheet(data);
     xlsx.utils.book_append_sheet(wb, ws, "Expense");
 
-    xlsx.writeFile(wb, "expense_details.xlsx");
-    res.download("expense_details.xlsx");
+    // 📌 Excel ko buffer me convert karo
+    const buffer = xlsx.write(wb, {
+      type: "buffer",
+      bookType: "xlsx",
+    });
+
+    // 📌 Proper headers
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=expense_details.xlsx"
+    );
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+
+    // 📌 Direct download (no file saved on server)
+    res.send(buffer);
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
 
 
 exports.deleteExpense = async (req, res) => {

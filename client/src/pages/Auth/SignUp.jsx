@@ -72,13 +72,13 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className="max-w-md mx-auto w-full px-6 flex flex-col">
+      <div className="max-w-md -mt-4 mx-auto w-full px-6 flex flex-col">
         {/* Header */}
-        <div className="mb-4 text-center">
+        <div className="text-center">
           <h3 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Create an Account
           </h3>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-500">
             Sign up to start tracking your income and expenses.
           </p>
         </div>
