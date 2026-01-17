@@ -1,3 +1,4 @@
+//Show income in bar chart
 import React, { useEffect, useState } from "react";
 import CustomBarChart from "../Chart/CustomBarChart";
 import { LuPlus } from "react-icons/lu";
@@ -40,7 +41,7 @@ const [showLoader, setShowLoader] = useState(true);
 
         <button
           onClick={onAddIncome}
-          className="flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
+          className="flex cursor-pointer items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition"
         >
           <LuPlus className="text-base" />
           Add Income

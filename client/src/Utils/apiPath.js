@@ -1,6 +1,7 @@
+//Defined API end points
 export const BASE_URL = "http://localhost:8080";
 
-// utils/apiPaths.js
+
 export const API_PATHS = {
   AUTH: {
     LOGIN: "/api/v1/auth/login",

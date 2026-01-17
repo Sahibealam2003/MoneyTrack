@@ -1,3 +1,4 @@
+//Show income list
 import React, { useEffect, useState } from "react";
 import TransactionInfoCard from "../Cards/TransactionInfoCard";
 import { LuDownload } from "react-icons/lu";

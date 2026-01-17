@@ -1,3 +1,4 @@
+//SignUp Page
 import React, { use, useContext, useState } from "react";
 import AuthLayout from "../../Components/AuthLayout.jsx";
 import { Link, useNavigate } from "react-router-dom";
@@ -73,7 +74,7 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="max-w-md -mt-4 mx-auto w-full px-6 flex flex-col">
-        {/* Header */}
+        
         <div className="text-center">
           <h3 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Create an Account
@@ -83,14 +84,14 @@ const SignUp = () => {
           </p>
         </div>
 
-        {/* Form */}
+        
         <form onSubmit={handleOnSignUp} className="space-y-1 flex flex-col">
-          {/* Profile Image */}
+        
           <div className="flex justify-center -mb-5">
             <ProfileIcon image={profilePic} setImage={setProfilePic} />
           </div>
 
-          {/* Fields */}
+       
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="md:col-span-2">
               <Input
@@ -119,14 +120,14 @@ const SignUp = () => {
             />
           </div>
 
-          {/* Error */}
+          
           {error && (
             <p className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2 rounded-md text-center">
               {error}
             </p>
           )}
 
-          {/* Button */}
+        
           <button
             type="submit"
             className="w-full py-3 rounded-lg bg-violet-600 text-white text-sm font-medium tracking-wide 
@@ -135,7 +136,7 @@ const SignUp = () => {
             SIGN UP
           </button>
 
-          {/* Footer */}
+         
           <p className="mt-4 text-sm text-gray-600 text-center">
             Already have an account?
             <Link

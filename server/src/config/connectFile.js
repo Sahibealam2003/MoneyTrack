@@ -1,3 +1,4 @@
+//file to connect DB to server
 const mongoose = require("mongoose")
 
 const connectDB = async () => {

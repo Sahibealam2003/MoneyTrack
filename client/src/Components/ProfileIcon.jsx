@@ -1,34 +1,38 @@
-import React, { useRef, useState } from "react";
+//Select Profile Image
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
+import { UserContext } from "../Context/userContext";
 
 const ProfileIcon = ({ image, setImage }) => {
+  const { user } = useContext(UserContext);
   const inputRef = useRef(null);
-  const [previewURL, setPreviewURL] = useState(null);
+  const [previewURL, setPreviewURL] = useState(user?.profileImageUrl || null);
 
-  const handleProfileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-      setPreviewURL(URL.createObjectURL(file));
+  useEffect(() => {
+    if (image) {
+      setPreviewURL(URL.createObjectURL(image));
     }
-  };
+  }, [image]);
 
-  const handleProfileRemove = () => {
+  const handleChoose = () => inputRef.current.click();
+
+  const handleRemove = () => {
     setImage(null);
     setPreviewURL(null);
   };
 
-  const handleProfileChoose = () => {
-    inputRef.current.click();
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
   };
 
   return (
-    <div className="flex flex-col items-center mb-6">
+    <div className="flex flex-col items-center">
       <input
         type="file"
         accept="image/*"
         ref={inputRef}
-        onChange={handleProfileChange}
+        onChange={handleChange}
         className="hidden"
       />
 
@@ -36,12 +40,15 @@ const ProfileIcon = ({ image, setImage }) => {
         <div className="relative w-32 h-32">
           <img
             src={previewURL}
-            alt="Profile Icon"
+            alt="Profile"
             className="w-full h-full rounded-full object-cover border-2 border-gray-200 shadow-sm"
           />
           <button
             type="button"
-            onClick={handleProfileRemove}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemove();
+            }}
             className="absolute -bottom-2 -right-2 bg-red-500 text-white p-2 rounded-full shadow hover:bg-red-600 transition"
             title="Remove"
           >
@@ -51,15 +58,15 @@ const ProfileIcon = ({ image, setImage }) => {
       ) : (
         <div
           className="relative w-32 h-32 flex items-center justify-center rounded-full bg-gray-100 border-2 border-gray-200 shadow-sm cursor-pointer hover:bg-gray-200 transition"
-          onClick={handleProfileChoose}
+          onClick={handleChoose}
         >
           <LuUser size={40} className="text-gray-400" />
           <button
             type="button"
             className="absolute -bottom-2 -right-2 bg-violet-600 text-white p-2 rounded-full shadow hover:bg-violet-700 transition"
             onClick={(e) => {
-              e.stopPropagation(); // Prevent outer div click
-              handleProfileChoose();
+              e.stopPropagation();
+              handleChoose();
             }}
             title="Upload"
           >

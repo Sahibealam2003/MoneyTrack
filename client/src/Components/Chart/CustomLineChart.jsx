@@ -1,4 +1,5 @@
 import React from "react";
+//Visually Repersent the time based data
 import {
   XAxis,
   YAxis,
@@ -8,22 +9,10 @@ import {
   Area,
   AreaChart,
 } from "recharts";
+import CustomTooltip from "./CustomTooltip";
 
 const CustomLineChart = ({ data }) => {
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="">
-          <p className="">{payload[0].payload.category}</p>
-          <p className="">
-            Amount: <span className="">${payload[0].payload.amount}</span>
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
+ 
 
   return (
     <div className="bg-white">

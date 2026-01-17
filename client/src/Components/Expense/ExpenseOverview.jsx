@@ -1,3 +1,4 @@
+//Show all expenses in line chart
 import React, { useEffect, useState } from "react";
 import { prepareExpenseLineChartData } from "../../Utils/helper";
 import { LuPlus } from "react-icons/lu";
@@ -37,7 +38,7 @@ const [showLoader, setShowLoader] = useState(true);
 
         <button
           onClick={onAddExpense}
-          className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition"
+          className="flex cursor-pointer items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700 transition"
         >
           <LuPlus className="text-base" />
           Add Expense

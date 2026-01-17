@@ -1,11 +1,12 @@
 import moment from "moment";
-
+//Email Validation
 export const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   return emailRegex.test(email);
 };
 
+//Extracts first letters from user's full name to create profile.
 export const getInitials = (name) => {
   if (!name) return "";
 
@@ -18,6 +19,7 @@ export const getInitials = (name) => {
   return initials.toUpperCase();
 };
 
+//Converts numbers into a readable format with commas.
 export const addThousandsSaperator = (num) => {
   if (num == null || isNaN(num)) return "";
   const [integerPart, , fractionalPart] = num.toString().split(".");
@@ -27,7 +29,7 @@ export const addThousandsSaperator = (num) => {
     : formattedInteger;
 };
 
-
+//Converts expense data into a daily grouped format for bar charts.
 export const prepareExpenseBarChartData = (data = []) => {
   const grouped = {};
 
@@ -47,9 +49,7 @@ export const prepareExpenseBarChartData = (data = []) => {
   }));
 };
 
-
-
-
+//Sorts income data by date and formats it for bar charts.
 export const prepareIncomeBarChartData = (data = []) => {
   const sortedData = [...data].sort(
     (a, b) => new Date(a.date) - new Date(b.date)
@@ -62,6 +62,7 @@ export const prepareIncomeBarChartData = (data = []) => {
   }));
 };
 
+//Converts expense data into a sorted, line chart–friendly format.
 export const prepareExpenseLineChartData=(data=[])=>{
 const sortedData = [...data].sort(
     (a, b) => new Date(a.date) - new Date(b.date)

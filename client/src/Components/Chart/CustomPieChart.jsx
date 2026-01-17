@@ -1,4 +1,5 @@
 import React from "react";
+//Show data in category wise (percent)
 import {
   PieChart,
   Pie,

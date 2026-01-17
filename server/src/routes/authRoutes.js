@@ -6,6 +6,7 @@ const {
   loginUser,
   getUserInfo,
   registerUser,
+  updateProfile
 } = require("../controllers/authController");
 
 route.post("/register", registerUser);
@@ -33,6 +34,13 @@ route.post(
     }
   }
 )
+
+route.put(
+  "/update-profile",
+  upload.single("profileImage"),
+  protect, // authentication middleware
+  updateProfile
+);
 
 
 

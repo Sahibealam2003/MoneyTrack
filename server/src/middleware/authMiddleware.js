@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken")
 const User = require("../models/userSchema")
-
+// Auth middleware for Add,get,delete transactions and login
 exports.protect = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization

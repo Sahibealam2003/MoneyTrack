@@ -1,3 +1,4 @@
+//show overall financial summary 
 import React, { useEffect, useState } from "react";
 import CustomPieChart from "../Chart/CustomPieChart";
 import { BeatLoader } from "react-spinners";

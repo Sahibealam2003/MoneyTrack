@@ -1,5 +1,5 @@
 import React from "react";
-
+//Make legend for chart
 const CustomLegend = ({ payload }) => {
   return (
     <div className="flex flex-col gap-2">

@@ -1,7 +1,9 @@
+//Income APIs
 const Income = require("../models/incomeSchema");
 const xlsx = require("xlsx");
 const moment = require("moment");
 
+//Add Income API
 exports.addIncome = async (req, res) => {
   try {
     const userId = req.user._id;
@@ -30,6 +32,7 @@ exports.addIncome = async (req, res) => {
   }
 };
 
+//Get all Income API
 exports.getAllIncome = async (req, res) => {
   const userId = req.user.id;
 
@@ -41,6 +44,7 @@ exports.getAllIncome = async (req, res) => {
   }
 };
 
+// Downlode xcel sheet of Income
 exports.downloadIncomeExcel = async (req, res) => {
   const userId = req.user.id;
   try {
@@ -63,11 +67,11 @@ exports.downloadIncomeExcel = async (req, res) => {
 
     res.setHeader(
       "Content-Disposition",
-      "attachment; filename=income_details.xlsx"
+      "attachment; filename=income_details.xlsx",
     );
     res.setHeader(
       "Content-Type",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     );
 
     res.send(buffer);
@@ -76,6 +80,7 @@ exports.downloadIncomeExcel = async (req, res) => {
   }
 };
 
+// Delete Income transactions
 exports.deleteIncome = async (req, res) => {
   try {
     await Income.findByIdAndDelete(req.params.id);

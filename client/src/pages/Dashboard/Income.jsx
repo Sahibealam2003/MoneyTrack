@@ -1,3 +1,4 @@
+//Income page
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../Components/DashboardLayout";
 import IncomeOverview from "../../Components/Income/IncomeOverview";

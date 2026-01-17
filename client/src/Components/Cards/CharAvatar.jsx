@@ -1,6 +1,6 @@
 import React from "react";
 import { getInitials } from "../../Utils/helper";
-
+ //User avatar if Profile image not available
 const CharAvatar = ({ name, width, height, style }) => {
   return (
     <div

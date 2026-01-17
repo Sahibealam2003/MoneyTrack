@@ -1,3 +1,4 @@
+//Show expense transactions on dashboard
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";

@@ -1,7 +1,9 @@
+//Expense APIs
 const Expense = require("../models/expreseSchema");
 const xlsx = require("xlsx");
 const moment = require("moment");
 
+//Add expense API
 exports.addExpense = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -27,7 +29,7 @@ exports.addExpense = async (req, res) => {
   }
 };
 
-// Get All Expense Source
+// Get All Expense Source API
 exports.getAllExpense = async (req, res) => {
   const userId = req.user.id;
 
@@ -40,7 +42,7 @@ exports.getAllExpense = async (req, res) => {
 };
 
 
-
+//Downlode xcel sheet of expense API
 exports.downloadExpenseExcel = async (req, res) => {
   const userId = req.user.id;
 
@@ -81,7 +83,7 @@ exports.downloadExpenseExcel = async (req, res) => {
 };
 
 
-
+// Delete expense API
 exports.deleteExpense = async (req, res) => {
   try {
     await Expense.findByIdAndDelete(req.params.id);

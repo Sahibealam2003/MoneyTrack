@@ -1,3 +1,4 @@
+//GET all deshboard Data (income, expenses, last 30 days transactions and last 60 day transactions)
 const Income = require("../models/incomeSchema")
 const Expense = require("../models/expreseSchema")
 const { Types } = require("mongoose")

@@ -1,3 +1,4 @@
+//Show all recent transation income + expense
 import React, { useEffect, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
 import moment from "moment";

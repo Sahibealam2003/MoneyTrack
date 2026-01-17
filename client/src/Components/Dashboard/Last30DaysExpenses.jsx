@@ -1,3 +1,4 @@
+//Show last 30 day transaction in line bar chart
 import React, { useEffect, useState } from "react";
 import { prepareExpenseBarChartData } from "../../Utils/helper";
 import CustomBarChart from "../../Components/Chart/CustomBarChart";

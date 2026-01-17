@@ -1,3 +1,4 @@
+//Layout of Auth page
 import React from "react";
 import Image_1 from "../assets/Images/Image_1.png";
 import { LuTrendingDown } from "react-icons/lu";
@@ -5,27 +6,27 @@ import { LuTrendingDown } from "react-icons/lu";
 const AuthLayout = ({ children }) => {
   return (
     <div className="flex  w-screen  overflow-hidden">
-      {/* Left Section */}
+
       <div className="w-full md:w-[60vw] px-12 py-6 flex flex-col justify-start overflow-y-auto">
         <h2 className="text-lg font-semibold text-black mb-6">Money Tracker</h2>
         {children}
       </div>
 
-      {/* Right Section */}
+     
       <div
         className="hidden md:flex w-[40vw] h-[90vh] mt-5 bg-violet-50  relative overflow-hidden 
   items-center 
   justify-center
 "
       >
-        {/* Decorative shapes */}
+        
         <div className="w-48 h-48 lg:w-56 lg:h-56 rounded-[40px] bg-purple-600 absolute -top-10 -left-10 opacity-90"></div>
 
-        <div className="w-48 h-48 lg:w-56 lg:h-56 rounded-[40px] border-[18px] border-fuchsia-600 absolute top-[35%] right-6 opacity-80"></div>
+        <div className="w-48 h-48 lg:w-56 lg:h-56 rounded-[40px] border-18 border-fuchsia-600 absolute top-[35%] right-6 opacity-80"></div>
 
         <div className="w-48 h-48 lg:w-56 lg:h-56 rounded-[40px] bg-violet-500 absolute -bottom-12 -left-12 opacity-90"></div>
 
-        {/* Stats Card */}
+        
         <div className="absolute top-8 left-8 z-20 scale-90 lg:scale-100">
           <StatsInfoCard
             icon={<LuTrendingDown />}
@@ -35,7 +36,6 @@ const AuthLayout = ({ children }) => {
           />
         </div>
 
-        {/* Image */}
         <img
           src={Image_1}
           alt="Auth Illustration"

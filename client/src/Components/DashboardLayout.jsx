@@ -1,3 +1,4 @@
+//Layout of dashboard
 import React, { useContext } from "react";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
@@ -13,16 +14,14 @@ const DashboardLayout = ({ children, activeMenu }) => {
       </div>
 
       <div className="mt-10">
-        {/* SideMenu only if user exists */}
         {user && (
           <div className="hidden min-[1080px]:block">
             <SideMenu activeMenu={activeMenu} />
           </div>
         )}
 
-        {/* Main Content ALWAYS render */}
          <div
-          className={`h-[calc(100vh-4rem)] overflow-y-auto px-5
+          className={`overflow-y-auto px-5
           ${user ? "min-[1080px]:ml-64" : ""}`}
         >
           {children}

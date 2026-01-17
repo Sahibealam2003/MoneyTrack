@@ -1,3 +1,4 @@
+//Show 60 Day Income in pie chart
 import React, { useEffect, useState } from "react";
 import CustomPieChart from "../Chart/CustomPieChart";
 import { BeatLoader } from "react-spinners";

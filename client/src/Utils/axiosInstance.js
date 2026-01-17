@@ -1,3 +1,4 @@
+//Axios setup with baseURL, request adds token, response handles errors, redirects on 401.
 import axios from "axios";
 import { BASE_URL } from "./apiPath";
 
@@ -23,7 +24,7 @@ axiosInstance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response Interceptor
@@ -45,7 +46,7 @@ axiosInstance.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default axiosInstance;

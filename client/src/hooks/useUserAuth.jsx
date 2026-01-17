@@ -32,8 +32,6 @@ export const useUserAuth = () => {
     };
 
     fetchUserInfo();
-
-    // Cleanup to prevent state updates if component unmounts
     return () => {
       isMounted = false;
     };

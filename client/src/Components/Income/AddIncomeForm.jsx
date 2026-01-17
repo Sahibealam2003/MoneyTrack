@@ -1,3 +1,4 @@
+//Show add income form
 import React, { useState } from "react";
 import Input from "../Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
@@ -18,7 +19,6 @@ const AddIncomeForm = ({ onAddIncome }) => {
         Add New Income
       </h2>
 
-      {/* Emoji Picker */}
       <div className="mb-4 flex justify-start">
         <EmojiPickerPopup
           icon={income.icon}
@@ -51,11 +51,11 @@ const AddIncomeForm = ({ onAddIncome }) => {
         />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 ">
         <button
           type="button"
           onClick={() => onAddIncome(income)}
-          className="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-semibold py-2.5 px-4 rounded-lg transition"
+          className="w-full bg-purple-600 cursor-pointer hover:bg-purple-700 active:bg-purple-800 text-white font-semibold py-2.5 px-4 rounded-lg transition"
         >
           Add Income
         </button>

@@ -1,3 +1,4 @@
+//It help to save image from backend to frontend
 import { API_PATHS } from "./apiPath";
 import axiosInstance from "./axiosInstance";
 

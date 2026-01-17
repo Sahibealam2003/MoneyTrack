@@ -1,4 +1,5 @@
 import React from "react";
+// Show transaction (Income / Expense)
 import {
   LuUtensils,
   LuTrendingUp,
@@ -50,7 +51,7 @@ const TransactionInfoCard = ({
 
         {!hideDeleteBtn && onDelete && (
           <button
-            className="text-gray-400 hover:text-red-500 transition"
+            className="text-gray-400 cursor-pointer hover:text-red-500 transition"
             onClick={onDelete}
           >
             <LuTrash2 size={18} />
