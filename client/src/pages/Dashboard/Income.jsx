@@ -122,7 +122,7 @@ const Income = () => {
   }, []);
   return (
     <DashboardLayout activeMenu="Income">
-      <div className="my-5 mx-auto">
+      <div className="my-10 mx-auto">
         <div className="grid grid-cols-1 gap-6">
           <div>
             <IncomeOverview

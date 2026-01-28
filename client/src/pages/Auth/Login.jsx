@@ -12,7 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const {updateUser} = useContext(UserContext)
+  const { updateUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -29,9 +30,8 @@ const Login = () => {
     }
 
     setError("");
-
+    setLoading(true);
     async function loginUser() {
-     
       try {
         const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
           email,
@@ -42,7 +42,7 @@ const Login = () => {
 
         if (token) {
           localStorage.setItem("token", token);
-          updateUser(user)
+          updateUser(user);
           navigate("/dashboard");
         }
       } catch (error) {
@@ -51,6 +51,8 @@ const Login = () => {
         } else {
           setError("Something went wrong. Please try again.");
         }
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -60,7 +62,6 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="max-w-md mx-auto w-full px-6 py-2 flex flex-col justify-center">
-      
         <div className="mb-8 text-center">
           <h3 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Welcome Back
@@ -70,7 +71,6 @@ const Login = () => {
           </p>
         </div>
 
-       
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input
             value={email}
@@ -88,23 +88,22 @@ const Login = () => {
             type="password"
           />
 
-         
           {error && (
             <p className="text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2 rounded-md text-center">
               {error}
             </p>
           )}
 
-     
           <button
             type="submit"
-            className="w-full cursor-pointer py-3 rounded-lg bg-violet-600 text-white text-sm font-medium tracking-wide
-                       hover:bg-violet-700 transition-colors duration-200 shadow-md"
+            disabled={loading}
+            className={`cursor-pointer w-full py-3 rounded-lg text-white text-sm font-medium tracking-wide shadow-md
+    ${loading ? "bg-violet-400 cursor-not-allowed" : "bg-violet-600 hover:bg-violet-700"}
+  `}
           >
-            LOGIN
+             {loading ? "Logging..." : "LOGIN"}
           </button>
 
-          
           <p className="text-sm text-gray-600 text-center">
             Don&apos;t have an account?
             <Link

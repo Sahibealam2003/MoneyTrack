@@ -1,13 +1,15 @@
 //Side Menu
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SIDE_MENU_DATA } from "../Utils/data";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Context/userContext";
 import CharAvatar from "./Cards/CharAvatar";
 import ProfileEditModal from "./ProfileEditModal";
 
-const SideMenu = ({ activeMenu }) => {
+const SideMenu = ({ activeMenu, onClose }) => {
   const { user, clearUser } = useContext(UserContext);
+  const [imageError, setImageError] = useState(false);
+
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -19,16 +21,27 @@ const SideMenu = ({ activeMenu }) => {
       return;
     }
     navigate(route);
+    onClose?.();
   };
+  const hasProfileImage =
+    user?.profileImageUrl &&
+    user.profileImageUrl !== "null" &&
+    user.profileImageUrl !== "undefined" &&
+    !imageError;
+
+
+  useEffect(() => {
+    setImageError(false);
+  }, [user?.profileImageUrl]);
 
   return (
     <div className="w-64 fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white shadow-md flex flex-col">
-    
       <div className="flex flex-col items-center py-6 border-b border-gray-200">
-        {user?.profileImageUrl ? (
+        {hasProfileImage ? (
           <img
             src={user.profileImageUrl}
             alt="Profile"
+            onError={() => setImageError(true)}
             className="w-20 h-20 rounded-full object-cover border-2 border-violet-500"
           />
         ) : (
@@ -52,7 +65,6 @@ const SideMenu = ({ activeMenu }) => {
         </button>
       </div>
 
-   
       <div className="flex-1 mt-4 flex flex-col gap-1">
         {SIDE_MENU_DATA.map((item, index) => {
           const isActive = activeMenu === item.label;

@@ -17,88 +17,86 @@ const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [error, setError] = useState(null);
   const { updateUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleOnSignUp = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!name) {
-    setError("Please enter your name");
-    return;
-  }
-
-  if (!validateEmail(email)) {
-    setError("Please enter a valid email");
-    return;
-  }
-
-  if (!password) {
-    setError("Please enter password");
-    return;
-  }
-
-  setError("");
-
-  let profileImageUrl = "";
-
-  try {
-    if (profilePic) {
-      const imgUploadRes = await uploadImage(profilePic);
-      profileImageUrl = imgUploadRes.imageUrl || "";
+    if (!name) {
+      setError("Please enter your name");
+      return;
     }
 
-    const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-      name,
-      email,
-      password,
-      profileImageUrl,
-    });
-
-    const { token, user } = response.data;
-
-    if (token) {
-      localStorage.setItem("token", token);
-      updateUser(user);
-      navigate("/dashboard");
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email");
+      return;
     }
-  } catch (error) {
-    if (error.response && error.response.data.message) {
-      setError(error.response.data.message);
-    } else {
-      setError("Something went wrong. Please try again.");
-    }
-  }
-};
 
+    if (!password) {
+      setError("Please enter password");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+    let profileImageUrl = "";
+
+    try {
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <AuthLayout>
       <div className="max-w-md -mt-4 mx-auto w-full px-6 flex flex-col">
-        
         <div className="text-center">
           <h3 className="text-3xl font-semibold text-gray-900 tracking-tight">
             Create an Account
           </h3>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 mb-2 text-sm text-gray-500">
             Sign up to start tracking your income and expenses.
           </p>
         </div>
 
-        
         <form onSubmit={handleOnSignUp} className="space-y-1 flex flex-col">
-        
           <div className="flex justify-center -mb-5">
             <ProfileIcon image={profilePic} setImage={setProfilePic} />
           </div>
 
-       
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <div className="md:col-span-2">
               <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 label="Full Name"
-                placeholder="Aman Gupta"
+                placeholder="Enter full name"
                 type="text"
               />
             </div>
@@ -107,7 +105,7 @@ const SignUp = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               label="Email Address"
-              placeholder="john@example.com"
+              placeholder="Enter your email"
               type="text"
             />
 
@@ -120,23 +118,22 @@ const SignUp = () => {
             />
           </div>
 
-          
           {error && (
             <p className="mt-2 text-sm text-red-600 bg-red-50 border border-red-200 px-4 py-2 rounded-md text-center">
               {error}
             </p>
           )}
 
-        
           <button
             type="submit"
-            className="w-full py-3 rounded-lg bg-violet-600 text-white text-sm font-medium tracking-wide 
-                       hover:bg-violet-700 transition-colors duration-200 shadow-md"
+            disabled={loading}
+            className={`cursor-pointer w-full py-3 rounded-lg text-white text-sm font-medium tracking-wide shadow-md
+    ${loading ? "bg-violet-400 cursor-not-allowed" : "bg-violet-600 hover:bg-violet-700"}
+  `}
           >
-            SIGN UP
+            {loading ? "Creating Account..." : "SIGN UP"}
           </button>
 
-         
           <p className="mt-4 text-sm text-gray-600 text-center">
             Already have an account?
             <Link

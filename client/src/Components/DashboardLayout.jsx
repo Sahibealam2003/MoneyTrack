@@ -1,15 +1,18 @@
 //Layout of dashboard
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "./Navbar";
 import SideMenu from "./SideMenu";
 import { UserContext } from "../Context/userContext";
 
 const DashboardLayout = ({ children, activeMenu }) => {
   const { user } = useContext(UserContext);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(true);
+
 
   return (
     <div className="bg-gray-50 overflow-hidden ">
       <div className="fixed top-0 left-0 right-0 h-16 z-20">
+
         <Navbar activeMenu={activeMenu} />
       </div>
 
