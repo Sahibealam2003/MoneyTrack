@@ -69,16 +69,22 @@ exports.getUserInfo=async(req,res)=>{
   }
 }
 
-//Update user name and Profile Image API
 exports.updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) throw new Error("User not found");
 
-    // FE  name come then update 
-    if (req.body.name) user.name = req.body.name;
+    // ✅ Update name
+    if (req.body.name) {
+      user.name = req.body.name;
+    }
 
-    // FE image file come then update 
+    // ✅ Remove profile image
+    if (req.body.removeImage === "true" || req.body.removeImage === true) {
+      user.profileImageUrl = null;
+    }
+
+    // ✅ Update profile image
     if (req.file) {
       const imageUrl = encodeURI(
         `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
