@@ -1,6 +1,6 @@
 //Axios setup with baseURL, request adds token, response handles errors, redirects on 401.
 import axios from "axios";
-import { BASE_URL } from "./apiPath";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
   },
 });
+
 
 // Request Interceptor
 axiosInstance.interceptors.request.use(
