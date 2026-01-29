@@ -8,33 +8,35 @@ const ProfileEditModal = ({ closeModal }) => {
   const { user, updateUser } = useContext(UserContext);
   const [name, setName] = useState(user?.name || "");
   const [imageFile, setImageFile] = useState(null);
-  const [isImageRemoved, setIsImageRemoved] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const updatedUser = await updateProfile({
-      name,
-      imageFile,
-      removeImage: isImageRemoved, // ✅ important
-    });
-
-    updateUser(updatedUser.user);
-    closeModal();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
-  }
-};
+    try {
+      const updatedUser = await updateProfile({ name, imageFile });
+      updateUser(updatedUser.user);
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
 
+  const handleRemoveImage = async () => {
+    setImageFile(null);
+    updateUser({ ...user, profileImageUrl: null });
 
+    try {
+      await updateProfile({ name, imageFile: null });
+    } catch (error) {
+      console.error("Failed to remove profile image", error);
+    }
+  };
 
   return (
    
@@ -52,12 +54,7 @@ const ProfileEditModal = ({ closeModal }) => {
       <h3 className="text-lg font-semibold mb-4 text-center">Edit Profile</h3>
 
       
-      <ProfileIcon
-  image={imageFile}
-  setImage={setImageFile}
-  setIsImageRemoved={setIsImageRemoved}
-/>
-
+      <ProfileIcon image={imageFile} setImage={setImageFile} />
 
     
       

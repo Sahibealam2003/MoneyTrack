@@ -3,8 +3,7 @@ import React, { useRef, useState, useEffect, useContext } from "react";
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
 import { UserContext } from "../Context/userContext";
 
-const ProfileIcon = ({ image, setImage, setIsImageRemoved }) => {
-
+const ProfileIcon = ({ image, setImage }) => {
   const { user } = useContext(UserContext);
   const inputRef = useRef(null);
   const [previewURL, setPreviewURL] = useState(user?.profileImageUrl || null);
@@ -18,24 +17,14 @@ const ProfileIcon = ({ image, setImage, setIsImageRemoved }) => {
   const handleChoose = () => inputRef.current.click();
 
   const handleRemove = () => {
-  setImage(null);
-  setPreviewURL(null);
-  setIsImageRemoved(true); // ✅ backend ko bataya
-};
+    setImage(null);
+    setPreviewURL(null);
+  };
 
-const handleChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    setIsImageRemoved(false);
-    setImage(file);
-  }
-};
-
-  useEffect (() => {
-  if (!image && user?.profileImageUrl) {
-    setPreviewURL(user.profileImageUrl);
-  }
-}, [user?.profileImageUrl]);
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    if (file) setImage(file);
+  };
 
   return (
     <div className="flex flex-col items-center">
