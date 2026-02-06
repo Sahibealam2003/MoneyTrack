@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
   },
-  profileImageUrl: {
+  profilePicture: {
     type: String,
     default: null,
   },

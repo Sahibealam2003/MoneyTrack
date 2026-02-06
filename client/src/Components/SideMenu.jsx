@@ -8,6 +8,7 @@ import ProfileEditModal from "./ProfileEditModal";
 
 const SideMenu = ({ activeMenu, onClose }) => {
   const { user, clearUser } = useContext(UserContext);
+  
   const [imageError, setImageError] = useState(false);
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,22 +25,22 @@ const SideMenu = ({ activeMenu, onClose }) => {
     onClose?.();
   };
   const hasProfileImage =
-    user?.profileImageUrl &&
-    user.profileImageUrl !== "null" &&
-    user.profileImageUrl !== "undefined" &&
+    user?.profilePicture  &&
+    user.profilePicture !== "null" &&
+    user.profilePicture !== "undefined" &&
     !imageError;
 
+ useEffect(() => {
+  setImageError(false);
+}, [user?.profilePicture]);
 
-  useEffect(() => {
-    setImageError(false);
-  }, [user?.profileImageUrl]);
 
   return (
     <div className="w-64 fixed left-0 top-16 h-[calc(100vh-4rem)] bg-white shadow-md flex flex-col">
       <div className="flex flex-col items-center py-6 border-b border-gray-200">
         {hasProfileImage ? (
           <img
-            src={user.profileImageUrl}
+            src={user.profilePicture}
             alt="Profile"
             onError={() => setImageError(true)}
             className="w-20 h-20 rounded-full object-cover border-2 border-violet-500"
