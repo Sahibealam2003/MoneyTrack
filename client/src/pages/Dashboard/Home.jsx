@@ -43,9 +43,6 @@ const Home = () => {
     fetchDashboardData();
   }, []);
 
-
-
-
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="mt-10 mx-auto">
@@ -53,21 +50,35 @@ const Home = () => {
           <InfoCard
             icon={<IoMdCard />}
             label="Total Balance"
-            value={addThousandsSaperator(dashboardData?.totalBalance || 0)}
+            value={
+              dashboardData
+                ? addThousandsSaperator(dashboardData.totalBalance)
+                : null
+            }
             color={
               dashboardData?.totalBalance < 0 ? "bg-red-500" : "bg-primary"
             }
           />
+
           <InfoCard
             icon={<LuHandCoins />}
             label="Total Income"
-            value={addThousandsSaperator(dashboardData?.totalIncome || 0)}
+            value={
+              dashboardData
+                ? addThousandsSaperator(dashboardData.totalIncome)
+                : null
+            }
             color="bg-green-500"
           />
+
           <InfoCard
             icon={<LuWalletMinimal />}
             label="Total Expense"
-            value={addThousandsSaperator(dashboardData?.totalExpenses || 0)}
+            value={
+              dashboardData
+                ? addThousandsSaperator(dashboardData.totalExpenses)
+                : null
+            }
             color="bg-rose-500"
           />
         </div>
@@ -81,6 +92,7 @@ const Home = () => {
             totalBalance={dashboardData?.totalBalance || 0}
             totalIncome={dashboardData?.totalIncome || 0}
             totalExpense={dashboardData?.totalExpenses || 0}
+            loading={loading}
           />
         </div>
 
@@ -93,6 +105,7 @@ const Home = () => {
 
           <Last30DaysExpenses
             data={dashboardData?.last30DaysExpenses?.transactions || []}
+            loading={loading}
           />
 
           <RecentIncome
@@ -103,6 +116,7 @@ const Home = () => {
           <RecentIncomeChart
             data={dashboardData?.last60DaysIncome?.transactions || []}
             totalIncome={dashboardData?.last60DaysIncome?.total || 0}
+            loading={loading}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
-//show overall financial summary 
-import React, { useEffect, useState } from "react";
+// show overall financial summary
+import React from "react";
 import CustomPieChart from "../Chart/CustomPieChart";
 import { BeatLoader } from "react-spinners";
 
@@ -11,23 +11,14 @@ const FinanceOverview = ({
   totalExpense,
   loading,
 }) => {
-  const hasData = totalBalance > 0 || totalIncome > 0 || totalExpense > 0;
-  const [showLoader, setShowLoader] = useState(true);
-
   const balanceData = [
     { name: "Total Balance", amount: totalBalance },
     { name: "Total Expenses", amount: totalExpense },
     { name: "Total Income", amount: totalIncome },
   ];
 
-  useEffect(() => {
-    if (loading) {
-      setShowLoader(true);
-    } else {
-      const timer = setTimeout(() => setShowLoader(false), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [loading]);
+  const hasData =
+    totalBalance > 0 || totalIncome > 0 || totalExpense > 0;
 
   return (
     <div className="card">
@@ -35,8 +26,9 @@ const FinanceOverview = ({
         <h5 className="text-lg">Financial Overview</h5>
       </div>
 
-      {showLoader ? (
-        <div className="flex justify-center mt-30  h-40">
+      {/* 🔄 LOADER */}
+      {loading ? (
+        <div className="flex justify-center items-center h-40">
           <BeatLoader color="#7C3AED" size={20} />
         </div>
       ) : hasData ? (

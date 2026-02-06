@@ -16,19 +16,19 @@ const Expense = () => {
 
   const [expenseData, setExpenseData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     show: false,
     data: null,
   });
-  
-  
+
   const fetchExpenseDetails = async () => {
     if (loading) return;
     setLoading(true);
     try {
       const response = await axiosInstance.get(
-        API_PATHS.EXPENSE.GET_ALL_EXPENSE
+        API_PATHS.EXPENSE.GET_ALL_EXPENSE,
       );
 
       if (response.data) {
@@ -43,7 +43,7 @@ const Expense = () => {
 
   const handleAddExpense = async (expense) => {
     const { category, amount, date, icon } = expense;
-
+    setLoading(true);
     // Validation Checks
     if (!category.trim()) {
       toast.error("Category is required.");
@@ -74,12 +74,15 @@ const Expense = () => {
     } catch (error) {
       console.error(
         "Error adding Expense:",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
+    } finally {
+      setLoading(false);
     }
   };
 
   const deleteExpense = async (id) => {
+    setDeleteLoading(true);
     try {
       await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
 
@@ -89,32 +92,35 @@ const Expense = () => {
     } catch (error) {
       console.error(
         "Error deleting expense:",
-        error.response?.data?.message || error.message
+        error.response?.data?.message || error.message,
       );
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
   const handleDownloadExpenseDetails = async () => {
-  try {
-    const response = await axiosInstance.get(API_PATHS.EXPENSE.DOWNLOAD_EXPENSE, {
-      responseType: "blob",
-    });
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.EXPENSE.DOWNLOAD_EXPENSE,
+        {
+          responseType: "blob",
+        },
+      );
 
-  
-    const url = window.URL.createObjectURL(new Blob([response.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "expense_details.xlsx");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  } catch (error) {
-    console.error("Error downloading expense details:", error);
-    toast.error("Failed to download expense details. Please try again.");
-  }
-};
-
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "expense_details.xlsx");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading expense details:", error);
+      toast.error("Failed to download expense details. Please try again.");
+    }
+  };
 
   useEffect(() => {
     fetchExpenseDetails();
@@ -128,6 +134,7 @@ const Expense = () => {
             <ExpenseOverview
               transactions={expenseData}
               onAddExpense={() => setOpenAddExpenseModal(true)}
+              loading={loading}
             />
           </div>
 
@@ -137,6 +144,7 @@ const Expense = () => {
               setOpenDeleteAlert({ show: true, data: id });
             }}
             onDownload={handleDownloadExpenseDetails}
+            loading={loading}
           />
         </div>
 
@@ -145,7 +153,7 @@ const Expense = () => {
           onClose={() => setOpenAddExpenseModal(false)}
           title="Add Expense"
         >
-          <AddExpenseForm onAddExpense={handleAddExpense} />
+          <AddExpenseForm onAddExpense={handleAddExpense} loading={loading} />
         </Modal>
 
         <Modal
@@ -154,8 +162,9 @@ const Expense = () => {
           title="Delete Expense"
         >
           <DeleteAlert
-            content={"Are you sure you want to delete this Expense?"}
+            content="Are you sure you want to delete this Expense?"
             onDelete={() => deleteExpense(openDeleteAlert.data)}
+            loading={deleteLoading}
           />
         </Modal>
       </div>

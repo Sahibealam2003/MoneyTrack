@@ -43,7 +43,7 @@ const Income = () => {
   // Handle Add Income
   const handleAddIncome = async (income) => {
     const { source, amount, date, icon } = income;
-
+      setLoading(true)
     // Validation Checks
     if (!source.trim()) {
       toast.error("Source is required.");
@@ -75,6 +75,8 @@ const Income = () => {
         "Error adding income:",
         error.response?.data?.message || error.message
       );
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -128,6 +130,7 @@ const Income = () => {
             <IncomeOverview
               transactions={incomeData}
               onAddIncome={() => setOpenAddIncomeModal(true)}
+              loading={loading}
             />
           </div>
           <IncomeList
@@ -136,6 +139,7 @@ const Income = () => {
               setOpenDeleteAlert({ show: true, data: id });
             }}
             onDownload={handleDownloadIncomeDetails}
+            loading={loading}
           />
         </div>
         <Modal
@@ -143,9 +147,8 @@ const Income = () => {
           onClose={() => setOpenAddIncomeModal(false)}
           title="Add Income"
         >
-          <AddIncomeForm onAddIncome={handleAddIncome} />
+          <AddIncomeForm onAddIncome={handleAddIncome} loading={loading} />
         </Modal>
-        
         <Modal
           isOpen={openDeleteAlert.show}
           onClose={() => setOpenDeleteAlert({ show: false, data: null })}

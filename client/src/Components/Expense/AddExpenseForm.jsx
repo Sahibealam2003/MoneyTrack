@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import EmojiPickerPopup from "../EmojiPickerPopup";
 import Input from "../Input";
 
-const AddExpenseForm = ({ onAddExpense }) => {
+const AddExpenseForm = ({ onAddExpense,loading }) => {
   const [income, setIncome] = useState({
     category: "",
     amount: "",
@@ -41,7 +41,7 @@ const AddExpenseForm = ({ onAddExpense }) => {
           value={income.amount}
           onChange={({ target }) => handleChange("amount", target.value)}
           label="Amount"
-          placeholder=""
+          placeholder="e.g., 500"
           type="number"
         />
 
@@ -57,10 +57,11 @@ const AddExpenseForm = ({ onAddExpense }) => {
       <div className="mt-6">
         <button
           type="button"
+          disabled={loading}
           onClick={() => onAddExpense(income)}
           className="w-full bg-red-600 cursor-pointer hover:bg-red-700 active:bg-red-800 text-white font-semibold py-2.5 px-4 rounded-lg transition"
         >
-          Add Expense
+          {loading ? "Expense adding..." : "Add Expense"}
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "../Input";
 import EmojiPickerPopup from "../EmojiPickerPopup";
 
-const AddIncomeForm = ({ onAddIncome }) => {
+const AddIncomeForm = ({ onAddIncome,loading }) => {
   const [income, setIncome] = useState({
     source: "",
     amount: "",
@@ -41,6 +41,8 @@ const AddIncomeForm = ({ onAddIncome }) => {
           label="Amount"
           placeholder="e.g., 500"
           type="number"
+          
+          className=""
         />
 
         <Input
@@ -57,7 +59,7 @@ const AddIncomeForm = ({ onAddIncome }) => {
           onClick={() => onAddIncome(income)}
           className="w-full bg-purple-600 cursor-pointer hover:bg-purple-700 active:bg-purple-800 text-white font-semibold py-2.5 px-4 rounded-lg transition"
         >
-          Add Income
+          {loading ? "Income adding..." : "Add Income"}
         </button>
       </div>
     </div>
