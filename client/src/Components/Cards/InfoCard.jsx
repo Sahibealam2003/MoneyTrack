@@ -1,6 +1,5 @@
-import React from "react";
+//Show Total amount(Income ,Expense,Total)
 import { BeatLoader } from "react-spinners";
-
 const InfoCard = ({ icon, label, color, value }) => {
   const isLoading = value === null || value === undefined;
 
