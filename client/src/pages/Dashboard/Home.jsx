@@ -87,6 +87,7 @@ const Home = () => {
           <RecentTransctions
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => navigate("/expense")}
+            loading={loading}
           />
           <FinanceOverview
             totalBalance={dashboardData?.totalBalance || 0}
